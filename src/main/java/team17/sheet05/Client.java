@@ -11,7 +11,7 @@ import java.rmi.registry.Registry;
 import static team17.sheet05.helpers.KeyIn.inInt;
 
 
-public class RemoteClient {
+public class Client {
 
     private static ICalculator calculator;
     private static RemoteTask taskRunner;
@@ -81,6 +81,9 @@ public class RemoteClient {
                 case 6:
                     FibonacciNumber();
                     break;
+                case 7:
+                    DeepThought();
+                    break;
                 case 9:
                     System.out.println("Exit selected");
                     break;
@@ -89,6 +92,10 @@ public class RemoteClient {
             }
 
         } while (choice != 9);
+    }
+
+    private static void DeepThought() {
+
     }
 
     private static void FibonacciNumber() {

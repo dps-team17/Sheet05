@@ -1,7 +1,9 @@
 package team17.sheet05;
 
+import team17.sheet05.helpers.CalculatePiTask;
 import team17.sheet05.helpers.KeyIn;
 
+import java.math.BigDecimal;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -12,8 +14,7 @@ import static team17.sheet05.helpers.KeyIn.inInt;
 public class RemoteClient {
 
     private static ICalculator calculator;
-    private static String host;
-    private static String username;
+    private static RemoteTask taskRunner;
 
     public static void main(String[] args) {
 
@@ -21,6 +22,7 @@ public class RemoteClient {
         try {
             Registry registry = LocateRegistry.getRegistry(host);
             calculator = (ICalculator) registry.lookup("ICalculator");
+            taskRunner = (RemoteTask) registry.lookup("RemoteTask");
 
             run();
 
@@ -41,6 +43,8 @@ public class RemoteClient {
         System.out.println("| 2. Subtract numbers     |");
         System.out.println("| 3. Multiply numbers     |");
         System.out.println("| 4. Lucas number         |");
+        System.out.println("| 5. PI (Task)            |");
+        System.out.println("| 6. Fibonacci (Task)     |");
         System.out.println("|                         |");
         System.out.println("| Settings:               |");
         System.out.println("| 9. Exit                 |");
@@ -71,6 +75,12 @@ public class RemoteClient {
                 case 4:
                     LucasNumber();
                     break;
+                case 5:
+                    CalculatePi();
+                    break;
+                case 6:
+                    FibonacciNumber();
+                    break;
                 case 9:
                     System.out.println("Exit selected");
                     break;
@@ -79,6 +89,32 @@ public class RemoteClient {
             }
 
         } while (choice != 9);
+    }
+
+    private static void FibonacciNumber() {
+        try {
+            int a = inInt("Number:");
+            CalculateFibonacciTask task = new CalculateFibonacciTask(a);
+            Integer fib = taskRunner.execute(task);
+
+            System.out.printf("The fibonacci number %d is %d\n\n", a, fib);
+        } catch (RemoteException e) {
+            System.out.format("\nError during calculation:\n%s\n\n", e.getMessage());
+        }
+    }
+
+    private static void CalculatePi() {
+        try {
+            int digits = inInt("How may digits?:");
+            CalculatePiTask task = new CalculatePiTask(digits);
+            BigDecimal pi = taskRunner.execute(task);
+
+            System.out.printf("Pi is %s\n\n", pi.toString());
+
+        } catch (RemoteException e) {
+            System.out.format("\nError during calculation:\n%s\n\n", e.getMessage());
+        }
+
     }
 
     private static void LucasNumber() {

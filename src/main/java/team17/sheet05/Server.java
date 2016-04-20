@@ -3,24 +3,32 @@ package team17.sheet05;
 
 import java.rmi.registry.Registry;
 import java.rmi.registry.LocateRegistry;
-import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
 public class Server {
 
     public static void main(String args[]) {
 
-        try {
+        //Create Security manager
+        if (System.getSecurityManager() == null) {
+            System.setSecurityManager(new SecurityManager());
+        }
+
+       try {
+            // Create calculator stub
             ICalculator calculator = new Calculator();
-            ICalculator stub1 = (ICalculator) UnicastRemoteObject.exportObject(calculator, 0);
-            //Hello stub = (Hello) UnicastRemoteObject.exportObject(obj, 0);
+            ICalculator calculatorStub = (ICalculator) UnicastRemoteObject.exportObject(calculator, 0);
 
-            // Bind the remote object's stub in the registry
+            // Create task runner stub
+            RemoteTask taskRunner = new RemoteTaskRunner();
+            RemoteTask taskRunnerStub = (RemoteTask) UnicastRemoteObject.exportObject(taskRunner, 0);
+
+            // Bind stubs in the registry
             Registry registry = LocateRegistry.getRegistry();
-            registry.bind("ICalculator", stub1);
-            //registry.bind("Hello", stub);
+            registry.rebind("ICalculator", calculatorStub);
+            registry.rebind("RemoteTask", taskRunnerStub);
 
-            System.err.println("Server ready");
+            System.out.println("Server ready");
         } catch (Exception e) {
             System.err.println("Server exception: " + e.toString());
             e.printStackTrace();

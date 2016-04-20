@@ -29,3 +29,5 @@ Implement a server offering the simple computation services of HW 02 (+, , * and
 the object has to be unexported;*
 
 *Note: parts b), c) and d) can be processed independently*
+
+*Used resources: *[Oracle Java RMI Tutorial 1](https://docs.oracle.com/javase/8/docs/technotes/guides/rmi/hello/hello-world.html); [Oracle Java RMI Tutorial 2](https://docs.oracle.com/javase/tutorial/rmi/)

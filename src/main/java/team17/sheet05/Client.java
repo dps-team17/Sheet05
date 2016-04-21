@@ -4,9 +4,9 @@ import team17.sheet05.brain.DeepThoughtCallback;
 import team17.sheet05.brain.IDeepThoughtCallback;
 import team17.sheet05.brain.IDeepThoughtService;
 import team17.sheet05.calculator.ICalculator;
+import team17.sheet05.helpers.KeyIn;
 import team17.sheet05.tasks.CalculateFibonacciTask;
 import team17.sheet05.tasks.CalculatePiTask;
-import team17.sheet05.helpers.KeyIn;
 import team17.sheet05.tasks.RemoteTask;
 
 import java.math.BigDecimal;
@@ -19,7 +19,7 @@ import java.rmi.server.UnicastRemoteObject;
 import static team17.sheet05.helpers.KeyIn.inInt;
 
 
-public class Client {
+class Client {
 
     private static ICalculator calculator;
     private static RemoteTask taskRunner;
@@ -138,7 +138,7 @@ public class Client {
         try {
             String q = KeyIn.inString("Your question: ");
 
-            IDeepThoughtCallback callback = new DeepThoughtCallback(System.in);
+            IDeepThoughtCallback callback = new DeepThoughtCallback();
             IDeepThoughtCallback callbackStub = (IDeepThoughtCallback) UnicastRemoteObject.exportObject(callback, 0);
 
             IDeepThoughtService deepThoughtService = (IDeepThoughtService) registry.lookup("IDeepThoughtService");

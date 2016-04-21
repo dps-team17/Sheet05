@@ -28,7 +28,7 @@ import java.io.InputStream;
 
 public class KeyIn {
 
-    private static InputStream in = System.in;
+    private static final InputStream in = System.in;
 
     //*******************************
     //   support methods

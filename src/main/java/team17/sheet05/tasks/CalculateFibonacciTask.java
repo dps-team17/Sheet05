@@ -1,12 +1,10 @@
 package team17.sheet05.tasks;
 
-import team17.sheet05.tasks.Task;
-
 import java.io.Serializable;
 
 public class CalculateFibonacciTask implements Task<Integer>, Serializable {
 
-    private int number;
+    private final int number;
 
     public CalculateFibonacciTask(int n) {
         number = n;

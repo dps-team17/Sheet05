@@ -6,5 +6,5 @@ import java.rmi.RemoteException;
 
 public interface IDeepThoughtCallback extends Remote {
 
-    void answer(String question, String answer, IDeepThoughtCallback callback) throws RemoteException;
+    void answer(String question, String answer) throws RemoteException;
 }

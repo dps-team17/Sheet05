@@ -58,23 +58,16 @@ public class CalculatePiTask implements Task<BigDecimal>, Serializable {
     }
 
     /**
-     * Calculate pi.
-     */
-    public BigDecimal execute() {
-        return computePi(digits);
-    }
-
-    /**
-     * Compute the value of pi to the specified number of 
-     * digits after the decimal point.  The value is 
+     * Compute the value of pi to the specified number of
+     * digits after the decimal point.  The value is
      * computed using Machin's formula:
      *
      *          pi/4 = 4*arctan(1/5) - arctan(1/239)
      *
-     * and a power series expansion of arctan(x) to 
+     * and a power series expansion of arctan(x) to
      * sufficient precision.
      */
-    public static BigDecimal computePi(int digits) {
+    private static BigDecimal computePi(int digits) {
         int scale = digits + 5;
         BigDecimal arctan1_5 = arctan(5, scale);
         BigDecimal arctan1_239 = arctan(239, scale);
@@ -83,18 +76,19 @@ public class CalculatePiTask implements Task<BigDecimal>, Serializable {
         return pi.setScale(digits,
                 BigDecimal.ROUND_HALF_UP);
     }
+
     /**
-     * Compute the value, in radians, of the arctangent of 
+     * Compute the value, in radians, of the arctangent of
      * the inverse of the supplied integer to the specified
      * number of digits after the decimal point.  The value
      * is computed using the power series expansion for the
      * arc tangent:
      *
-     * arctan(x) = x - (x^3)/3 + (x^5)/5 - (x^7)/7 + 
+     * arctan(x) = x - (x^3)/3 + (x^5)/5 - (x^7)/7 +
      *     (x^9)/9 ...
      */
-    public static BigDecimal arctan(int inverseX,
-                                    int scale)
+    private static BigDecimal arctan(int inverseX,
+                                     int scale)
     {
         BigDecimal result, numer, term;
         BigDecimal invX = BigDecimal.valueOf(inverseX);
@@ -121,5 +115,12 @@ public class CalculatePiTask implements Task<BigDecimal>, Serializable {
             i++;
         } while (term.compareTo(BigDecimal.ZERO) != 0);
         return result;
+    }
+
+    /**
+     * Calculate pi.
+     */
+    public BigDecimal execute() {
+        return computePi(digits);
     }
 }

@@ -1,7 +1,6 @@
 package team17.sheet05.brain;
 
 
-import java.io.InputStream;
 import java.rmi.NoSuchObjectException;
 import java.rmi.server.UnicastRemoteObject;
 
@@ -9,14 +8,14 @@ public class DeepThoughtCallback implements IDeepThoughtCallback {
 
     private final Thread mainThread;
 
-    public DeepThoughtCallback(InputStream in) {
+    public DeepThoughtCallback() {
         super();
 
         this.mainThread = Thread.currentThread();
     }
 
     @Override
-    public void answer(String question, String answer, IDeepThoughtCallback callback) {
+    public void answer(String question, String answer) {
 
         try {
 

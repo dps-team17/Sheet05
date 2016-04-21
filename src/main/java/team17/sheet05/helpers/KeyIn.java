@@ -23,7 +23,12 @@ Publisher: CRC Press
 //**********************************************************
 //**********************************************************
 
+
+import java.io.InputStream;
+
 public class KeyIn {
+
+    private static InputStream in = System.in;
 
     //*******************************
     //   support methods
@@ -40,8 +45,8 @@ public class KeyIn {
     private static void inputFlush() {
 
         try {
-            while ((System.in.available()) != 0)
-                System.in.read();
+            while ((in.available()) != 0)
+                in.read();
         } catch (java.io.IOException e) {
             System.out.println("Input error");
         }
@@ -51,13 +56,13 @@ public class KeyIn {
     //  data input methods for
     //string, int, char, and double
     //********************************
-    public static String inString(String prompt) {
+    public static String inString(String prompt)  {
         inputFlush();
         printPrompt(prompt);
         return inString();
     }
 
-    private static String inString() {
+    private static String inString()  {
         int aChar;
         String s = "";
         boolean finished = false;
@@ -65,9 +70,9 @@ public class KeyIn {
         while (!finished) {
             try {
                 aChar = System.in.read();
-                if (aChar < 0 || (char) aChar == '\n')
+                if (aChar < 0 || (char) aChar == '\n'){
                     finished = true;
-                else if ((char) aChar != '\r')
+                } else if ((char) aChar != '\r')
                     s = s + (char) aChar; // Enter into string
             } catch (java.io.IOException e) {
                 System.out.println("Input error");
@@ -77,7 +82,7 @@ public class KeyIn {
         return s;
     }
 
-    public static int inInt(String prompt) {
+    public static int inInt(String prompt)  {
         while (true) {
             inputFlush();
             printPrompt(prompt);

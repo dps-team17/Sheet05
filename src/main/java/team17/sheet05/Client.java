@@ -1,12 +1,20 @@
 package team17.sheet05;
 
-import team17.sheet05.helpers.CalculatePiTask;
+import team17.sheet05.brain.DeepThoughtCallback;
+import team17.sheet05.brain.IDeepThoughtCallback;
+import team17.sheet05.brain.IDeepThoughtService;
+import team17.sheet05.calculator.ICalculator;
+import team17.sheet05.tasks.CalculateFibonacciTask;
+import team17.sheet05.tasks.CalculatePiTask;
 import team17.sheet05.helpers.KeyIn;
+import team17.sheet05.tasks.RemoteTask;
 
 import java.math.BigDecimal;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 
 import static team17.sheet05.helpers.KeyIn.inInt;
 
@@ -15,12 +23,13 @@ public class Client {
 
     private static ICalculator calculator;
     private static RemoteTask taskRunner;
+    private static Registry registry;
 
     public static void main(String[] args) {
 
         String host = (args.length < 1) ? null : args[0];
         try {
-            Registry registry = LocateRegistry.getRegistry(host);
+            registry = LocateRegistry.getRegistry(host);
             calculator = (ICalculator) registry.lookup("ICalculator");
             taskRunner = (RemoteTask) registry.lookup("RemoteTask");
 
@@ -30,6 +39,8 @@ public class Client {
             System.err.println("Client exception: " + e.toString());
             e.printStackTrace();
         }
+
+        System.out.println("Shutdown complete");
     }
 
     private static int getChoice() {
@@ -45,6 +56,7 @@ public class Client {
         System.out.println("| 4. Lucas number         |");
         System.out.println("| 5. PI (Task)            |");
         System.out.println("| 6. Fibonacci (Task)     |");
+        System.out.println("| 7. Ask DeepThought      |");
         System.out.println("|                         |");
         System.out.println("| Settings:               |");
         System.out.println("| 9. Exit                 |");
@@ -58,7 +70,6 @@ public class Client {
 
         int choice;
         do {
-
             choice = getChoice();
 
             // Switch construct
@@ -82,7 +93,7 @@ public class Client {
                     FibonacciNumber();
                     break;
                 case 7:
-                    DeepThought();
+                    AskDeepThought();
                     break;
                 case 9:
                     System.out.println("Exit selected");
@@ -91,10 +102,26 @@ public class Client {
                     System.out.println("Invalid selection");
             }
 
+
         } while (choice != 9);
     }
 
-    private static void DeepThought() {
+    private static void AskDeepThought() {
+        try {
+            String q = KeyIn.inString("Your question: ");
+
+            IDeepThoughtCallback callback = new DeepThoughtCallback(System.in);
+            IDeepThoughtCallback callbackStub = (IDeepThoughtCallback) UnicastRemoteObject.exportObject(callback, 0);
+
+            IDeepThoughtService deepThoughtService = (IDeepThoughtService) registry.lookup("IDeepThoughtService");
+            deepThoughtService.ThinkAbout(q, callbackStub);
+
+            System.out.println("\n\n*** Your question is submitted to deep thought ***\nYou can continue your work while it's thinking about it.\n\n");
+
+        } catch (RemoteException | NotBoundException e) {
+            e.printStackTrace();
+        }
+
 
     }
 
@@ -121,7 +148,6 @@ public class Client {
         } catch (RemoteException e) {
             System.out.format("\nError during calculation:\n%s\n\n", e.getMessage());
         }
-
     }
 
     private static void LucasNumber() {

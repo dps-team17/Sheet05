@@ -1,4 +1,4 @@
-package team17.sheet05;
+package team17.sheet05.calculator;
 
 public class Calculator implements ICalculator {
 

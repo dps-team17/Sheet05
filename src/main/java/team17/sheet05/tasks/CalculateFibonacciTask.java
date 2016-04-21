@@ -1,4 +1,6 @@
-package team17.sheet05;
+package team17.sheet05.tasks;
+
+import team17.sheet05.tasks.Task;
 
 import java.io.Serializable;
 

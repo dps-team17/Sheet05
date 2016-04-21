@@ -1,10 +1,10 @@
-package team17.sheet05;
+package team17.sheet05.calculator;
 
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-interface ICalculator extends Remote {
+public interface ICalculator extends Remote {
     int Add(int a, int b) throws RemoteException;
 
     int Subtract(int a, int b) throws RemoteException;

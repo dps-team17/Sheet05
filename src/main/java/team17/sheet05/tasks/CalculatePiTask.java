@@ -29,9 +29,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package team17.sheet05.helpers;
-
-import team17.sheet05.Task;
+package team17.sheet05.tasks;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

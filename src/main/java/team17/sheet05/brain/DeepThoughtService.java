@@ -16,7 +16,7 @@ public class DeepThoughtService implements IDeepThoughtService {
             public void run() {
                 try {
                     Thread.sleep(5000);
-                    callback.answer(question, String.valueOf(42), callback);
+                    callback.answer(question, String.valueOf(42));
 
 
                 } catch (InterruptedException | RemoteException e) {

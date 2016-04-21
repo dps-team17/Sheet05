@@ -1,7 +1,8 @@
-/* AUTOMATICALLY GENERATED ON Wed Apr 20 23:02:25 CEST 2016*/
+/* AUTOMATICALLY GENERATED ON Fri Apr 22 00:25:26 CEST 2016*/
 /* DO NOT EDIT */
 
 grant {
-  permission java.net.SocketPermission "127.0.0.1:1099", "connect, resolve";
+  permission java.net.SocketPermission "127.0.0.1:1024-", "connect, resolve";
+  permission java.net.SocketPermission "192.168.1.12:1024-", "accept, resolve, connect";
 };
 

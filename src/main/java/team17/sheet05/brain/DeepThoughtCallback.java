@@ -7,12 +7,12 @@ import java.rmi.server.UnicastRemoteObject;
 
 public class DeepThoughtCallback implements IDeepThoughtCallback {
 
-    private final InputStream in;
+    private final Thread mainThread;
 
     public DeepThoughtCallback(InputStream in) {
         super();
 
-        this.in = in;
+        this.mainThread = Thread.currentThread();
     }
 
     @Override
@@ -23,10 +23,10 @@ public class DeepThoughtCallback implements IDeepThoughtCallback {
             UnicastRemoteObject.unexportObject(this, true);
             System.out.printf("\n\n*** Result received from deep thought ***\nThe answer to your question \"%s\" is probably %s\n\n", question, answer);
 
+            mainThread.interrupt();
+
         } catch (NoSuchObjectException e) {
             e.printStackTrace();
         }
-
-
     }
 }

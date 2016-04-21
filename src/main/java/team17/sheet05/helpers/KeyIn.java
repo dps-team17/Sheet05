@@ -56,21 +56,27 @@ public class KeyIn {
     //  data input methods for
     //string, int, char, and double
     //********************************
-    public static String inString(String prompt)  {
+    public static String inString(String prompt) throws InterruptedException {
         inputFlush();
         printPrompt(prompt);
         return inString();
     }
 
-    private static String inString()  {
+    private static String inString() throws InterruptedException {
         int aChar;
         String s = "";
         boolean finished = false;
 
-        while (!finished) {
+        while (!finished && !Thread.currentThread().isInterrupted()) {
             try {
+
+                // Ensure data is available
+                if (in.available() == 0) {
+                    continue;
+                }
+
                 aChar = System.in.read();
-                if (aChar < 0 || (char) aChar == '\n'){
+                if (aChar < 0 || (char) aChar == '\n') {
                     finished = true;
                 } else if ((char) aChar != '\r')
                     s = s + (char) aChar; // Enter into string
@@ -79,10 +85,14 @@ public class KeyIn {
                 finished = true;
             }
         }
+
+        // Handle interrupt
+        if(Thread.interrupted()) throw new InterruptedException();
+
         return s;
     }
 
-    public static int inInt(String prompt)  {
+    public static int inInt(String prompt) throws InterruptedException {
         while (true) {
             inputFlush();
             printPrompt(prompt);

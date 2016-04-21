@@ -21,7 +21,6 @@ public class Server {
             System.setSecurityManager(new SecurityManager());
         }
 
-
         try {
             // Create calculator stub
             ICalculator calculator = new Calculator();
@@ -36,12 +35,13 @@ public class Server {
             IDeepThoughtService deepThoughtServiceStub = (IDeepThoughtService) UnicastRemoteObject.exportObject(deepThoughtService, 0);
 
             // Bind stubs in the registry
-            Registry registry = LocateRegistry.getRegistry();
+            Registry registry = LocateRegistry.createRegistry(1099);
             registry.rebind("ICalculator", calculatorStub);
             registry.rebind("RemoteTask", taskRunnerStub);
             registry.rebind("IDeepThoughtService", deepThoughtServiceStub);
 
             System.out.println("Server ready");
+
         } catch (Exception e) {
             System.err.println("Server exception: " + e.toString());
             e.printStackTrace();

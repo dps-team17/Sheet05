@@ -43,7 +43,7 @@ public class Client {
         System.out.println("Shutdown complete");
     }
 
-    private static int getChoice() {
+    private static int getChoice() throws InterruptedException {
 
         // Display menu
         System.out.println("===========================");
@@ -68,45 +68,73 @@ public class Client {
 
     private static void run() {
 
-        int choice;
+        int choice = 0;
+
         do {
-            choice = getChoice();
+            try {
 
-            // Switch construct
-            switch (choice) {
-                case 1:
-                    AddNumbers();
-                    break;
-                case 2:
-                    SubtractNumbers();
-                    break;
-                case 3:
-                    MultiplyNumbers();
-                    break;
-                case 4:
-                    LucasNumber();
-                    break;
-                case 5:
-                    CalculatePi();
-                    break;
-                case 6:
-                    FibonacciNumber();
-                    break;
-                case 7:
-                    AskDeepThought();
-                    break;
-                case 9:
-                    System.out.println("Exit selected");
-                    break;
-                default:
-                    System.out.println("Invalid selection");
-            }
+                // Skip, if error occurred in last iteration
+                if(choice >= 0) choice = getChoice();
 
+                    switch (choice) {
+                        case 1:
+                            AddNumbers();
+                            break;
+                        case 2:
+                            SubtractNumbers();
+                            break;
+                        case 3:
+                            MultiplyNumbers();
+                            break;
+                        case 4:
+                            LucasNumber();
+                            break;
+                        case 5:
+                            CalculatePi();
+                            break;
+                        case 6:
+                            FibonacciNumber();
+                            break;
+                        case 7:
+                            AskDeepThought();
+                            break;
+                        case 9:
+                            System.out.println("Exit selected");
+                            break;
+                        case -3:
+                            choice = OfferShutdown();
+                            break;
+                        default:
+                            System.out.println("Invalid selection");
+                    }
+                }catch(InterruptedException e){
+                    choice = -3;
+                }
 
         } while (choice != 9);
     }
 
-    private static void AskDeepThought() {
+    private static int OfferShutdown() throws InterruptedException {
+
+        int result = -3;
+
+        String input = KeyIn.inString("Shutdown? (Y|N)");
+
+            switch (input.toLowerCase()){
+                case "y":
+                    result = 9;
+                    break;
+                case "n":
+                    result = 0;
+                    break;
+                default:
+                    System.out.println("Invalid input");
+            }
+
+        return result;
+    }
+
+    private static void AskDeepThought() throws InterruptedException {
         try {
             String q = KeyIn.inString("Your question: ");
 
@@ -125,7 +153,7 @@ public class Client {
 
     }
 
-    private static void FibonacciNumber() {
+    private static void FibonacciNumber() throws InterruptedException {
         try {
             int a = inInt("Number:");
             CalculateFibonacciTask task = new CalculateFibonacciTask(a);
@@ -137,7 +165,7 @@ public class Client {
         }
     }
 
-    private static void CalculatePi() {
+    private static void CalculatePi() throws InterruptedException {
         try {
             int digits = inInt("How may digits?:");
             CalculatePiTask task = new CalculatePiTask(digits);
@@ -150,7 +178,7 @@ public class Client {
         }
     }
 
-    private static void LucasNumber() {
+    private static void LucasNumber() throws InterruptedException {
         try {
 
             int a = inInt("Number:");
@@ -164,7 +192,7 @@ public class Client {
         }
     }
 
-    private static void MultiplyNumbers() {
+    private static void MultiplyNumbers() throws InterruptedException {
         try {
 
             int a = inInt("First number:");
@@ -179,7 +207,7 @@ public class Client {
         }
     }
 
-    private static void SubtractNumbers() {
+    private static void SubtractNumbers() throws InterruptedException {
         try {
 
             int a = inInt("First number:");
@@ -194,7 +222,7 @@ public class Client {
         }
     }
 
-    private static void AddNumbers() {
+    private static void AddNumbers() throws InterruptedException {
 
         try {
 
